@@ -20,8 +20,8 @@ object PandocMdFilter {
       println (pretty(render(parsedVal)))
 
 
-      println ("\npeek at yaml metadata:")
-      println (parsedVal \\ "unMeta")
+      //println ("\npeek at yaml metadata:")
+      //println (parsedVal \\ "unMeta")
     }
   }
 
