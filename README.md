@@ -1,7 +1,15 @@
 # citedown
 
-The goal of this project  is a pandoc filter and/or simple indepednent utility supporting use of pure URNs wherever you would use URLs in linking or embedding references in a markdown document.
 
+The goal of this project  is a pandoc filter and/or simple indepednent utility supporting use of pure URNs wherever you would use URLs in linking or embedding references in a markdown document.  Still in initial planning phases.
+
+## Requires
+
+- pandoc
+- scala + sbt
+
+
+## Run
 
 While in development, options include:
 
