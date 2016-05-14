@@ -47,25 +47,31 @@ object PandocJsonFilter {
   * map configuring base URLs for each of
   * the fundamental CITE services.
   */
-  def configServices(yml: JValue) = {
-    // transform services -> map
+  def mapServices(yml: JValue): Map[String,String] = {
     val ctsBase = metaString(yml \\ "cts")
     val citeBase = metaString(yml \\ "cite")
     val imgBase = metaString(yml \\ "citeimg")
-    ("cts" -> ctsBase, "cite" -> citeBase, "citeimg" -> imgBase)
+    Map("cts" -> ctsBase, "cite" -> citeBase, "citeimg" -> imgBase)
+  }
+
+  def rewrite(doc: JValue, svcs: Map[String,String]) = {
+      println("Examine this doc: " + pretty(render(doc)))
+      // transform Link with c \ c  filter
   }
 
 
   /** Transforms Pandoc JSON with URN values to pandoc
-  * Pandoc JSON with URNs resolved to URLs.
+  * Pandoc JSON with URNs resolved to URLs, and writes
+  * the resulting JSON string to stdout.
   * @param args Zero or one command-line args.  If
   * arg included, it is assumed to be the name of a
   * file with Pandoc JSON.
   */
   def main(args: Array[String]) = {
     val parsed = parse(srcText(args))
-    var meta = configServices(parsed \\ "unMeta" \\ "services")
+    val meta = mapServices(parsed \\ "unMeta" \\ "services")
     println("Meta: " + meta)
+    val rewritten = rewrite(parsed, meta)
       //println (pretty(render(meta)))
   }
 
