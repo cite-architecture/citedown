@@ -22,6 +22,40 @@ object PandocJsonFilter {
   }
 
 
+  /**  Gets string value of a YAML
+  * metadata configuration object parsed
+  * as a JValue object.
+  * @param metaObj The parsed YAML entry.
+  * @returns The string value of the entry,
+  * or a null string an appropriate string
+  * value could not be found.
+  */
+  def metaString(metaObj: JValue) = {
+    implicit val formats = DefaultFormats
+    try {
+      val obj = metaObj \ "c" \ "c"
+      obj.extract[String]
+    } catch {
+      case _: Throwable => {
+        val str = ""
+        str
+      }
+    }
+  }
+
+  /** Transforms a parsed document to a
+  * map configuring base URLs for each of
+  * the fundamental CITE services.
+  */
+  def configServices(yml: JValue) = {
+    // transform services -> map
+    val ctsBase = metaString(yml \\ "cts")
+    val citeBase = metaString(yml \\ "cite")
+    val imgBase = metaString(yml \\ "citeimg")
+    ("cts" -> ctsBase, "cite" -> citeBase, "citeimg" -> imgBase)
+  }
+
+
   /** Transforms Pandoc JSON with URN values to pandoc
   * Pandoc JSON with URNs resolved to URLs.
   * @param args Zero or one command-line args.  If
@@ -29,12 +63,10 @@ object PandocJsonFilter {
   * file with Pandoc JSON.
   */
   def main(args: Array[String]) = {
-
     val parsed = parse(srcText(args))
-
-    println ("Peek at yaml metadata:")
-    val yaml = parsed \\ "unMeta"
-    println (pretty(render(yaml)))
+    var meta = configServices(parsed \\ "unMeta" \\ "services")
+    println("Meta: " + meta)
+      //println (pretty(render(meta)))
   }
 
 
