@@ -17,6 +17,7 @@ While in development, options include:
 
     sbt 'run-main PandocJsonFilter <FILE>'
 
-- `sbt assembly` builds a fat jar in `target/scala-2.11`., Run it with:
+- `sbt assembly` builds a fat jar in `target/scala-2.11`. You can run it with:
+    - `java -jar scpd-assembly-1.0.jar <FILE>`
 
-    java -jar scpd-assembly-1.0.jar <FILE>
+You can also make the included sh script `cd.sh`executable and put it in the same directory with the fat jar.  This lets you just run `cd.sh <FILE>`
